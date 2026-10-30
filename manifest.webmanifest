@@ -1,0 +1,9 @@
+{
+  "name": "JobFinder CV — Mokhtar Ouchem",
+  "short_name": "JobFinder CV",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f9",
+  "theme_color": "#12384d",
+  "description": "Recherche d'offres et suivi des candidatures."
+}

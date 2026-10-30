@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JobFinder CV — Mokhtar Ouchem</title>
+<style>
+:root{--navy:#143f55;--teal:#087f8c;--bg:#f3f7f9;--ink:#243746;--muted:#647784;--line:#dce6eb;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.5 Inter,Arial,sans-serif;color:var(--ink)}
+header{background:linear-gradient(120deg,#12384d,#087f8c);color:white;padding:26px max(20px,calc((100% - 1120px)/2))}
+header h1{margin:0;font-size:26px}header p{margin:5px 0 0;color:#d9edf0}
+main{max-width:1120px;margin:24px auto;padding:0 18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 4px 16px #16394b0a;margin-bottom:16px}
+h2{font-size:17px;margin:0 0 13px;color:var(--navy)}label{display:block;font-weight:600;font-size:13px;margin:10px 0 5px}
+input,select,textarea{width:100%;border:1px solid #cbd8df;border-radius:9px;padding:10px;font:inherit;background:white;color:var(--ink)}
+textarea{min-height:76px;resize:vertical}.countries{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.countries label{font-weight:400;margin:2px 0;display:flex;gap:7px;align-items:center}.countries input{width:auto}
+button,.btn{border:0;border-radius:9px;padding:10px 14px;background:var(--teal);color:white;font-weight:700;cursor:pointer;display:inline-block;text-decoration:none}
+button.secondary{background:#e8f1f4;color:var(--navy)}button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.muted{color:var(--muted);font-size:13px}.pill{display:inline-block;border-radius:30px;padding:3px 9px;background:#e8f4f5;color:#08717d;font-size:12px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f5f9fa;padding:12px;border-radius:10px}.stat b{font-size:22px;color:var(--navy);display:block}
+.job{border:1px solid var(--line);border-radius:11px;padding:13px;margin-top:10px}.job h3{font-size:15px;margin:0 0 3px}.job p{margin:3px 0}.job .row{margin-top:9px}
+.notice{border-left:4px solid #d79b35;background:#fff8e9;padding:12px;border-radius:7px;font-size:13px}
+footer{max-width:1120px;margin:0 auto;padding:0 18px 28px;color:var(--muted);font-size:12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.countries{grid-template-columns:repeat(2,1fr)}}
+</style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#12384d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script></head>
+<body>
+<header><h1>JobFinder CV</h1><p>Recherche d'offres et suivi des candidatures · Profil : Mokhtar Ouchem</p></header>
+<main>
+<div class="grid">
+<section class="card">
+<h2>1. Votre profil</h2>
+<label>Adresse e-mail de contact</label><input id="email" type="email" value="mokhtar.ouchem@gmail.com" placeholder="votre@email.com">
+<label>Importer votre CV (PDF ou Word)</label><input id="cv" type="file" accept=".pdf,.doc,.docx">
+<p class="muted" id="cvname">Aucun CV importé. Vous pouvez utiliser votre CV français ou anglais.</p>
+<label>Métiers recherchés</label><input id="roles" value="Économe, Storekeeper, Inventory Controller, Stock Manager, Assistant Bar Manager, Bartender">
+<label>Compétences / mots-clés</label><textarea id="skills">gestion des stocks, contrôle de stock, inventaire, gestion des ressources humaines, hôtellerie, restauration, bar, barman, économat, stock control, inventory management, hospitality, bartender</textarea>
+<label>Langues</label><input id="langs" value="Arabe, Français, Anglais, Allemand">
+<button id="saveProfile">Enregistrer le profil</button>
+</section>
+<section class="card">
+<h2>2. Zone de recherche</h2>
+<label>Pays / régions</label>
+<div class="countries" id="countries">
+<label><input type="checkbox" value="France" checked> France</label><label><input type="checkbox" value="Allemagne" checked> Allemagne</label>
+<label><input type="checkbox" value="Belgique" checked> Belgique</label><label><input type="checkbox" value="Suisse" checked> Suisse</label>
+<label><input type="checkbox" value="Pays-Bas" checked> Pays-Bas</label><label><input type="checkbox" value="Italie" checked> Italie</label>
+<label><input type="checkbox" value="Europe" checked> Tous pays européens</label>
+</div>
+<label>Ville ou région (facultatif)</label><input id="region" placeholder="Ex. : Paris, Berlin, Bruxelles, Genève…">
+<label>Type de contrat</label><select id="contract"><option>Tous types</option><option>CDI / Permanent</option><option>CDD / Fixed-term</option><option>Saisonnier</option><option>Temps plein</option></select>
+<label>Correspondance minimale : <span id="thresholdLabel">40</span>%</label><input id="threshold" type="range" min="10" max="90" step="5" value="40">
+<div class="row" style="margin-top:12px"><button id="search">Rechercher les offres</button><button class="secondary" id="reset">Réinitialiser</button></div>
+</section></div>
+<section class="card">
+<h2>3. Mode de candidature</h2>
+<div class="notice"><b>Mode automatique sécurisé activé :</b> l'application peut préparer les candidatures et classer les offres, mais ne soumet pas seule votre CV. Chaque envoi doit être confirmé par vous sur le site du recruteur. Les sites imposent des comptes, CAPTCHA et règles différentes ; cette version ne contourne pas ces protections.</div>
+<label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="auto" checked style="width:auto"> Préparer automatiquement un message pour les offres correspondantes</label>
+<label>Message de candidature</label><textarea id="message">Madame, Monsieur,
+
+Je souhaite vous proposer ma candidature pour le poste indiqué. Fort d'une expérience en hôtellerie-restauration, en gestion des stocks et en suivi des opérations, je serais heureux de mettre mes compétences au service de votre établissement.
+
+Vous trouverez mon CV en pièce jointe. Je reste à votre disposition pour un entretien.
+
+Cordialement,
+Mokhtar Ouchem
++216 98 414 211</textarea>
+</section>
+<section class="card">
+<h2>4. Offres et candidatures</h2>
+<div class="stats"><div class="stat"><b id="countJobs">0</b><span class="muted">Offres ajoutées</span></div><div class="stat"><b id="countMatch">0</b><span class="muted">Correspondances</span></div><div class="stat"><b id="countApplied">0</b><span class="muted">Candidatures envoyées</span></div></div>
+<p class="muted">Cette première version ouvre des recherches ciblées sur les sites d'emploi. Ajoutez ensuite une offre pour calculer sa correspondance et suivre votre candidature.</p>
+<div class="row"><button class="secondary" id="portals">Ouvrir les sites d'emploi</button><button class="secondary" id="export">Exporter le suivi (CSV)</button></div>
+<div id="portalLinks" class="muted" style="margin-top:10px"></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:15px 0">
+<h2>Ajouter une offre trouvée</h2>
+<div class="grid">
+<div><label>Intitulé du poste</label><input id="jobtitle" placeholder="Ex. : Storekeeper / Économe"></div>
+<div><label>Entreprise</label><input id="company" placeholder="Nom de l'hôtel"></div>
+<div><label>Pays / ville</label><input id="place" placeholder="Ex. : Genève, Suisse"></div>
+<div><label>Lien de l'annonce</label><input id="joburl" placeholder="https://…"></div>
+</div>
+<label>Description / exigences de l'offre</label><textarea id="jobdesc" placeholder="Collez ici le texte de l'annonce pour calculer la correspondance…"></textarea>
+<div class="row"><button id="addJob">Analyser et ajouter l'offre</button></div>
+<div id="jobs"></div>
+</section>
+</main>
+<footer>Les données du profil et du suivi sont conservées dans le stockage local de ce navigateur. Cette application est un prototype local : elle ne collecte pas les offres en arrière-plan et n'envoie pas d'e-mails automatiquement.</footer>
+<script>
+const $=id=>document.getElementById(id); let jobs=JSON.parse(localStorage.getItem('jf_jobs')||'[]');
+let profile=JSON.parse(localStorage.getItem('jf_profile')||'null');
+if(profile){$('roles').value=profile.roles;$('skills').value=profile.skills;$('langs').value=profile.langs;if(profile.email)$('email').value=profile.email;}
+$('threshold').oninput=()=> $('thresholdLabel').textContent=$('threshold').value;
+$('cv').onchange=e=>{$('cvname').textContent=e.target.files[0]?'CV sélectionné : '+e.target.files[0].name+' (le fichier reste sur votre appareil).':'Aucun CV importé.'};
+function selected(){return [...document.querySelectorAll('#countries input:checked')].map(x=>x.value)}
+$('saveProfile').onclick=()=>{localStorage.setItem('jf_profile',JSON.stringify({roles:$('roles').value,skills:$('skills').value,langs:$('langs').value,email:$('email').value}));alert('Profil enregistré dans ce navigateur.');};
+const portals=[['EURES – mobilité européenne','https://eures.europa.eu/index_fr'],['France Travail','https://www.francetravail.fr/'],['Indeed France','https://fr.indeed.com/'],['Bundesagentur für Arbeit','https://www.arbeitsagentur.de/jobsuche/'],['Actiris – Belgique','https://www.actiris.brussels/'],['Job-Room – Suisse','https://www.job-room.ch/'],['Werk.nl – Pays-Bas','https://www.werk.nl/'],['Cliclavoro – Italie','https://www.cliclavoro.gov.it/']];
+$('portals').onclick=()=>{let html=portals.map(p=>`<div><a target="_blank" rel="noopener" href="${p[1]}">${p[0]}</a></div>`).join('');$('portalLinks').innerHTML=html;};
+$('search').onclick=()=>{let q=encodeURIComponent($('roles').value.split(',')[0]+' '+$('region').value);let cs=selected();if(!cs.length){alert('Sélectionnez au moins un pays.');return;}let urls={'France':'https://fr.indeed.com/jobs?q=','Allemagne':'https://de.indeed.com/jobs?q=','Belgique':'https://be.indeed.com/jobs?q=','Suisse':'https://ch.indeed.com/jobs?q=','Pays-Bas':'https://nl.indeed.com/jobs?q=','Italie':'https://it.indeed.com/jobs?q=','Europe':'https://eures.europa.eu/index_en'};cs.forEach(c=>window.open(c==='Europe'?urls[c]:urls[c]+q,'_blank','noopener'));};
+function score(text){let terms=$('skills').value.toLowerCase().split(/[,;\n]+/).map(s=>s.trim()).filter(s=>s.length>2);let hay=text.toLowerCase();let hits=[...new Set(terms.filter(t=>hay.includes(t)))];return {score:terms.length?Math.round(hits.length/terms.length*100):0,hits};}
+function render(){let matches=jobs.filter(j=>j.score>=+$('threshold').value);$('countJobs').textContent=jobs.length;$('countMatch').textContent=matches.length;$('countApplied').textContent=jobs.filter(j=>j.status==='Envoyée').length;$('jobs').innerHTML=jobs.map((j,i)=>`<div class="job"><div class="row"><span class="pill">${j.score}% de correspondance</span><span class="muted">${j.status}</span></div><h3>${esc(j.title)} — ${esc(j.company)}</h3><p class="muted">${esc(j.place)}</p><p class="muted">Mots-clés : ${esc(j.hits.join(', ')||'aucun détecté')}</p><div class="row">${j.url?`<a class="btn" target="_blank" rel="noopener" href="${escAttr(j.url)}">Voir l'offre</a>`:''}<button class="secondary" onclick="prepare(${i})">Préparer candidature</button><select onchange="status(${i},this.value)" aria-label="Statut"><option ${j.status==='À examiner'?'selected':''}>À examiner</option><option ${j.status==='Prête'?'selected':''}>Prête</option><option ${j.status==='Envoyée'?'selected':''}>Envoyée</option><option ${j.status==='Refusée'?'selected':''}>Refusée</option></select><button class="secondary" onclick="removeJob(${i})">Supprimer</button></div><div id="draft${i}"></div></div>`).join('')||'<p class="muted">Aucune offre ajoutée pour le moment.</p>';}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}function escAttr(s){return esc(s);}
+window.status=(i,s)=>{jobs[i].status=s;save();};window.removeJob=i=>{jobs.splice(i,1);save();};
+window.prepare=i=>{let j=jobs[i];let draft=$('message').value.replace('poste indiqué','poste de '+j.title).replace('mokhtar.ouchem@gmail.com',$('email').value.trim());$('draft'+i).innerHTML='<label>Message prêt à copier</label><textarea>'+esc(draft)+'</textarea><button class="secondary" onclick="navigator.clipboard.writeText(document.querySelector(\\'#draft'+i+' textarea\\').value)">Copier le message</button>';j.status='Prête';save(false);};
+function save(doRender=true){localStorage.setItem('jf_jobs',JSON.stringify(jobs));if(doRender)render();else render();}
+$('addJob').onclick=()=>{let title=$('jobtitle').value.trim(),desc=$('jobdesc').value.trim();if(!title||!desc){alert('Ajoutez au minimum le titre et la description de l’offre.');return;}let s=score(title+' '+desc);jobs.unshift({title,company:$('company').value,place:$('place').value,url:$('joburl').value,score:s.score,hits:s.hits,status:'À examiner',desc});save();['jobtitle','company','place','joburl','jobdesc'].forEach(id=>$(id).value='');};
+$('export').onclick=()=>{let rows=[['Poste','Entreprise','Lieu','Correspondance','Statut','Lien'],...jobs.map(j=>[j.title,j.company,j.place,j.score+'%',j.status,j.url])];let csv=rows.map(r=>r.map(x=>'"'+String(x||'').replace(/"/g,'""')+'"').join(';')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='suivi_candidatures_jobfinder.csv';a.click();URL.revokeObjectURL(a.href);};
+$('reset').onclick=()=>{if(confirm('Effacer les offres et les réglages enregistrés dans ce navigateur ?')){localStorage.removeItem('jf_jobs');localStorage.removeItem('jf_profile');jobs=[];render();}};
+render();
+</script></body></html>
